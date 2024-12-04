@@ -1,7 +1,10 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 import sqlite3
+from flask_cors import CORS
 
 app = Flask(__name__)
+
+CORS(app)
 DATABASE = 'database.db'
 
 import os
@@ -63,7 +66,6 @@ def get_articles():
     conn = get_db_connection()
     articles = conn.execute('SELECT * FROM articles').fetchall()
     conn.close()
-    print(jsonify([dict(article) for article in articles]))
     return jsonify([dict(article) for article in articles])
 
 @app.route('/api/articles', methods=['POST'])
@@ -94,6 +96,75 @@ def create_article():
     conn.commit()
     conn.close()
     return jsonify({'message': 'Article created successfully'}), 201
+
+@app.route('/api/articles/<id>', methods=['GET'])
+def get_article(id):
+    conn = get_db_connection()
+    article = conn.execute(
+        'SELECT * FROM articles WHERE id = ?',
+        (id)
+    ).fetchone()
+    conn.close()
+    if article is None:
+        return jsonify({'error': 'Article not found'}), 404
+    return jsonify(dict(article))
+
+@app.route('/api/articles/<int:id>', methods=['PUT'])
+def update_article(id):
+    data = request.json
+    required_fields = ['title', 'content', 'author', 'date', 'slug']
+    
+    # Check if all required fields are present
+    if not all(field in data for field in required_fields):
+        return jsonify({'error': 'All fields are required'}), 400
+
+    conn = get_db_connection()
+    conn.execute(
+        '''UPDATE articles 
+           SET title = ?, content = ?, author = ?, date = ?
+           WHERE id = ?''',
+        (data['title'], data['content'], data['author'], data['date'], data['slug'], id)
+    )
+    conn.commit()
+    conn.close()
+    return jsonify({'message': 'Article updated successfully'}), 200
+
+@app.route('/api/articles/<int:id>', methods=['PATCH'])
+def patch_article(id):
+    data = request.json
+    fields = ['title', 'content', 'author', 'date']
+    updates = {key: data[key] for key in fields if key in data}
+
+    if not updates:
+        return jsonify({'error': 'No valid fields to update'}), 400
+
+    query = 'UPDATE articles SET ' + ', '.join(f"{key} = ?" for key in updates.keys()) + ' WHERE id = ?'
+    values = list(updates.values()) + [id]
+
+    conn = get_db_connection()
+    conn.execute(query, values)
+    conn.commit()
+    conn.close()
+    return jsonify({'message': 'Article updated successfully'}), 200
+
+@app.route('/api/articles/<int:id>', methods=['DELETE'])
+def delete_article(id):
+    conn = get_db_connection()
+    article = conn.execute('SELECT image FROM articles WHERE id = ?', (id,)).fetchone()
+    if article is None:
+        conn.close()
+        return jsonify({'error': 'Article not found'}), 404
+
+    image_path = os.path.join(app.config['UPLOAD_FOLDER'], article['image'])
+    if os.path.exists(image_path):
+        os.remove(image_path)
+
+    conn.execute('DELETE FROM articles WHERE id = ?', (id,))
+    conn.commit()
+    conn.close()
+    return jsonify({'message': 'Article deleted successfully'}), 200
+
+
 
 
 

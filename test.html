@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <h1 class="mb-4 text-center">Article Management</h1>
+        
+        <!-- Fetch Articles -->
+        <div class="mb-4">
+            <button class="btn btn-primary" onclick="fetchArticles()">Fetch All Articles</button>
+        </div>
+        <ul id="articlesList" class="list-group mb-4"></ul>
+
+        <!-- Fetch Single Article -->
+        <div class="mb-4">
+            <input type="text" id="articleIdOrSlug" placeholder="Enter Article ID or Slug" class="form-control mb-2">
+            <button class="btn btn-info" onclick="fetchArticle(document.getElementById('articleIdOrSlug').value)">Fetch Article</button>
+        </div>
+        <div id="articleDetails" class="border p-3 bg-white"></div>
+
+        <!-- Create Article -->
+        <div class="mb-4">
+            <h3>Create New Article</h3>
+            <form id="createForm" class="border p-3 bg-white">
+                <input type="text" name="title" placeholder="Title" class="form-control mb-2" required>
+                <textarea name="content" placeholder="Content" class="form-control mb-2" required></textarea>
+                <input type="text" name="author" placeholder="Author" class="form-control mb-2" required>
+                <input type="date" name="date" class="form-control mb-2" required>
+                <input type="file" id="imageInput" name="image" accept="image/*" class="form-control mb-2" required>
+                <button type="submit" class="btn btn-success">Create Article</button>
+            </form>
+        </div>
+
+        <!-- Update Article -->
+        <div class="mb-4">
+            <h3>Update Article</h3>
+            <input type="number" id="updateArticleId" placeholder="Article ID" class="form-control mb-2">
+            <textarea id="updateArticleData" placeholder="JSON Data (e.g., { 'title': 'New Title' })" class="form-control mb-2"></textarea>
+            <button class="btn btn-warning" onclick="updateArticle(document.getElementById('updateArticleId').value, JSON.parse(document.getElementById('updateArticleData').value))">
+                Update Article
+            </button>
+        </div>
+
+        <!-- Delete Article -->
+        <div class="mb-4">
+            <h3>Delete Article</h3>
+            <input type="number" id="deleteArticleId" placeholder="Article ID" class="form-control mb-2">
+            <button class="btn btn-danger" onclick="deleteArticle(document.getElementById('deleteArticleId').value)">Delete Article</button>
+        </div>
+    </div>
+
+    <script>
+        // Fetch all articles
+        async function fetchArticles() {
+            try {
+                const response = await fetch('http://127.0.0.1:5123/api/articles');
+                if (!response.ok) throw new Error('Failed to fetch articles');
+                const articles = await response.json();
+                const articlesList = document.getElementById('articlesList');
+                articlesList.innerHTML = '';
+                articles.forEach(article => {
+                    const li = document.createElement('li');
+                    li.className = 'list-group-item';
+                    li.textContent = `${article.title} by ${article.author} (${article.date})`;
+                    articlesList.appendChild(li);
+                });
+            } catch (error) {
+                console.error(error);
+                alert('Error fetching articles!');
+            }
+        }
+
+        // Fetch single article
+        async function fetchArticle(idOrSlug) {
+            try {
+                const response = await fetch(`http://127.0.0.1:5123/api/articles/${idOrSlug}`);
+                if (!response.ok) throw new Error('Article not found');
+                const article = await response.json();
+                const articleDetails = document.getElementById('articleDetails');
+                articleDetails.innerHTML = `
+                    <h3>${article.title}</h3>
+                    <p>${article.content}</p>
+                    <p><strong>Author:</strong> ${article.author}</p>
+                    <p><strong>Date:</strong> ${article.date}</p>
+                `;
+            } catch (error) {
+                console.error(error);
+                alert('Error fetching article!');
+            }
+        }
+
+        // Create a new article
+        async function createArticle(formData) {
+            try {
+                const response = await fetch('http://127.0.0.1:5123/api/articles', { method: 'POST', body: formData });
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Failed to create article');
+                }
+                alert('Article created successfully!');
+                fetchArticles(); // Refresh the list
+            } catch (error) {
+                console.error(error);
+                alert('Error creating article: ' + error.message);
+            }
+        }
+
+        // Update an article
+        async function updateArticle(id, articleData) {
+            try {
+                const response = await fetch(`http://127.0.0.1:5123/api/articles/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(articleData),
+                });
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Failed to update article');
+                }
+                alert('Article updated successfully!');
+                fetchArticles(); // Refresh the list
+            } catch (error) {
+                console.error(error);
+                alert('Error updating article: ' + error.message);
+            }
+        }
+
+        // Delete an article
+        async function deleteArticle(id) {
+            try {
+                const response = await fetch(`http://127.0.0.1:5123/api/articles/${id}`, { method: 'DELETE' });
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Failed to delete article');
+                }
+                alert('Article deleted successfully!');
+                fetchArticles(); // Refresh the list
+            } catch (error) {
+                console.error(error);
+                alert('Error deleting article: ' + error.message);
+            }
+        }
+
+        // Handle form submission for creating an article
+        document.getElementById('createForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            createArticle(formData);
+        });
+    </script>
+</body>
+</html>
