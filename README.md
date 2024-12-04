@@ -3,7 +3,7 @@ https://www.figma.com/design/NCk1ysrABiDlYbl4mmWpFK/Web-Developer-Portfolio-Webs
 
 
 API - app.py (вместе с рендерингом страниц, всё вместе в докере), но я питонист, поэтому бэкэнд пока на flask'e.
-Методы API реализованы для articles. 
+Методы API реализованы для articles. Страницы - в templates, рендерит их сейчас тоже flask, но код внутри на js. 
 
 На странице create можно создать новую статью (POST), на странице blog - просмотреть результат.
 
