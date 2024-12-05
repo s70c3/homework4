@@ -39,10 +39,7 @@ def init_db():
 # Рендеринг HTML страницы
 @app.route('/blog')
 def render_blog():
-    conn = get_db_connection()
-    articles = conn.execute('SELECT * FROM articles').fetchall()
-    conn.close()
-    return render_template('blog.html', articles=articles)
+    return render_template('blog.html')
 
 
 # Главная страница
