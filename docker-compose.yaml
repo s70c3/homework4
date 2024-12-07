@@ -12,6 +12,7 @@ services:
       - ./frontend/templates:/usr/share/nginx/html/templates
     depends_on:
       - flask
+    container_name: nginx  # Убедитесь, что имя совпадает
     networks:
       - app-network
 
@@ -23,6 +24,7 @@ services:
       - "5123:5123"
     volumes:
       - ./storage:/storage
+    container_name: flask  # Убедитесь, что имя совпадает
     environment:
       - FLASK_ENV=development
     networks:

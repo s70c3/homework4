@@ -13,5 +13,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Открываем порт приложения
 EXPOSE 5000
 
-# Запуск приложения
-CMD ["python", "app.py"]
+# Команда для запуска Gunicorn
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5123", "app:app"]

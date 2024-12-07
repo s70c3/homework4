@@ -60,7 +60,7 @@
 
     <script>
         // Получаем статьи с API
-        fetch('http://flask:5123//api/articles')
+        fetch('http://localhostc/api/articles')
             .then(response => response.json())
             .then(articles => {
                 const articlesContainer = document.getElementById('articles-container');
