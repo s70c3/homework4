@@ -2,7 +2,7 @@
 FROM nginx:alpine
 
 # Copy static files
-COPY ./static /usr/share/nginx/html/static
+COPY pages/static /usr/share/nginx/html/static
 
 # Copy templates
 COPY ./templates /usr/share/nginx/html/templates
