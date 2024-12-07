@@ -1,10 +1,33 @@
 version: '3.8'
+
 services:
-  web:
+  nginx:
     build:
-      context: .
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - ./frontend/static:/usr/share/nginx/html/static
+      - ./frontend/templates:/usr/share/nginx/html/templates
+    depends_on:
+      - flask
+    networks:
+      - app-network
+
+  flask:
+    build:
+      context: ./backend/
       dockerfile: Dockerfile
     ports:
       - "5123:5123"
     volumes:
-      - ./app:/app
+      - ./storage:/storage
+    environment:
+      - FLASK_ENV=development
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

@@ -2,10 +2,10 @@
 FROM python:3.10-slim
 
 # Устанавливаем рабочую директорию
-WORKDIR /app
+WORKDIR /backend
 
 # Копируем приложение
-COPY app/ /app
+COPY . /backend
 
 # Устанавливаем зависимости
 RUN pip install --no-cache-dir -r requirements.txt

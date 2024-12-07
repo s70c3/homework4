@@ -10,7 +10,7 @@ DATABASE = 'database.db'
 import os
 from werkzeug.utils import secure_filename
 
-UPLOAD_FOLDER = '/app/static/images'
+UPLOAD_FOLDER = '/storage'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -47,20 +47,6 @@ def render_blog():
     conn.close()
     return render_template('blog.html', articles=articles)
 
-
-# Главная страница
-@app.route('/')
-def home():
-    return render_template('main.html')
-
-
-# Страница создания статьи
-@app.route('/create', methods=['GET'])
-def create():
-    return render_template('create.html')
-
-
-# API для получения всех статей
 @app.route('/api/articles', methods=['GET'])
 def get_articles():
     conn = get_db_connection()

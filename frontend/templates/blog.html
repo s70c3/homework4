@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sinan Tokmak Blogs</title>
-    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
     <link href='https://fonts.googleapis.com/css?family=IBM Plex Mono' rel='stylesheet'>
 </head>
 <body>
@@ -20,8 +20,8 @@
                 <nav>
                     <ul>
                         <li><a href="/">Home</a></li>
-                        <li><a href="blog">Blogs</a></li>
-                        <li><a href="create">Create new article</a></li>
+                        <li><a href="blog.html">Blogs</a></li>
+                        <li><a href="create.html">Create new article</a></li>
                     </ul>
                 </nav>
                 <div class="search-box">
@@ -60,7 +60,7 @@
 
     <script>
         // Получаем статьи с API
-        fetch('/api/articles')
+        fetch('http://flask:5123//api/articles')
             .then(response => response.json())
             .then(articles => {
                 const articlesContainer = document.getElementById('articles-container');
