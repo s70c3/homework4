@@ -9,7 +9,7 @@ services:
       - "80:80"
     volumes:
       - ./frontend/static:/usr/share/nginx/html/static
-      - ./frontend/templates:/usr/share/nginx/html/templates
+      - ./frontend/pages:/usr/share/nginx/html/pages
     depends_on:
       - flask
     container_name: nginx  # Убедитесь, что имя совпадает

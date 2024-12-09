@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "pages/*.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "static/css/styles.css",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "static/images/*",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    { "src": "/", "dest": "/pages/index.html" },
+    { "src": "/blog.html", "dest": "/pages/blog.html" },
+    { "src": "/create.html", "dest": "/pages/create.html" },
+    { "src": "/article.html", "dest": "/pages/article.html" }
+  ]
+}
