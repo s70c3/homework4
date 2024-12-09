@@ -1,0 +1,11 @@
+{
+  "name": "my-frontend",
+  "version": "1.0.0",
+  "description": "Static frontend project",
+  "scripts": {
+    "start": "vercel dev",
+    "build": "echo 'No build step needed for static site'"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
