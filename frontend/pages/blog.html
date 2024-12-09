@@ -5,70 +5,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sinan Tokmak Blogs</title>
     <link rel="stylesheet" href="/static/css/styles.css">
-    <link href='https://fonts.googleapis.com/css?family=IBM Plex Mono' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=IBM+Plex+Mono' rel='stylesheet'>
 </head>
 <body>
-    <header>
-        <div class="hor-container">
-            <!-- Логотип слева -->
-            <div class="logo">
-                <h1><span>&lt;/C&gt;</span> SinanTokmak</h1>
-            </div>
-            
-            <!-- Навигация, поиск и социальные иконки справа -->
-            <div class="nav-and-search">
-                <nav>
-                    <ul>
-                        <li><a href="/frontend/pages/static">Home</a></li>
-                        <li><a href="blog.html">Blogs</a></li>
-                        <li><a href="create.html">Create new article</a></li>
-                    </ul>
-                </nav>
-                <div class="search-box">
-                    <input type="text" placeholder="Search...">
-                    <button>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                    </button>
-                </div>
-                <ul class="social-icons">
-                    <li><a href="#"><img src="/static/images/instagram.png" alt="Instagram">Instagram</a></li>
-                    <li><a href="#"><img src="/static/images/discord.png" alt="Discord">Discord</a></li>
-                    <li><a href="#"><img src="/static/images/github.png" alt="Github">Github</a></li>
+<header>
+    <div class="hor-container">
+        <!-- Логотип слева -->
+        <div class="logo">
+            <h1><span>&lt;/C&gt;</span> SinanTokmak</h1>
+        </div>
+
+        <!-- Навигация, поиск и социальные иконки справа -->
+        <div class="nav-and-search">
+            <nav>
+                <ul>
+                    <li><a href="/index.html">Home</a></li>
+                    <li><a href="/blog.html">Blogs</a></li>
+                    <li><a href="/create.html">Create new article</a></li>
                 </ul>
+            </nav>
+            <div class="search-box">
+                <input type="text" placeholder="Search...">
+                <button>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
             </div>
+            <ul class="social-icons">
+                <li><a href="#"><img src="/static/images/instagram.png" alt="Instagram">Instagram</a></li>
+                <li><a href="#"><img src="/static/images/discord.png" alt="Discord">Discord</a></li>
+                <li><a href="#"><img src="/static/images/github.png" alt="Github">Github</a></li>
+            </ul>
         </div>
-    </header>
+    </div>
+</header>
 
-    <section class="blogs-section">
-        <div class="blogs-header">
-            <h1>Blogs</h1>
-            <p>My thoughts on technology and business, welcome to subscribe</p>
-        </div>
-        <div class="blogs-footer">
-            <button class="subscribe">Subscribe My Blogs</button>
-        </div>
-        <hr>
+<section class="blogs-section">
+    <div class="blogs-header">
+        <h1>Blogs</h1>
+        <p>My thoughts on technology and business, welcome to subscribe</p>
+    </div>
+    <div class="blogs-footer">
+        <button class="subscribe">Subscribe My Blogs</button>
+    </div>
+    <hr>
 
-        <!-- Контейнер для рендеринга статей -->
-        <div id="articles-container"></div>
-        
-    </section>
+    <!-- Контейнер для рендеринга статей -->
+    <div id="articles-container"></div>
 
-    <footer>
-        <p>© 2023 SinanTokmak. All rights reserved.</p>
-    </footer>
+</section>
 
-    <script>
-        // Получаем статьи с API
-        fetch('http://localhostc/api/articles')
+<footer>
+    <p>© 2023 SinanTokmak. All rights reserved.</p>
+</footer>
+
+<script>
+    // Получаем статьи с API
+    fetch('http://localhost/api/articles')
             .then(response => response.json())
             .then(articles => {
                 const articlesContainer = document.getElementById('articles-container');
                 articles.forEach(article => {
-                    // Создаем элемент для статьи
+                    // Создаем элемент дл�� статьи
                     const articleElement = document.createElement('article');
                     articleElement.classList.add('hor-container');
-                    
+
                     // Добавляем изображение статьи, если оно есть
                     const articleImage = document.createElement('div');
                     articleImage.classList.add('article-image');
@@ -92,7 +96,7 @@
                     articleContent.appendChild(content);
 
                     const readMoreLink = document.createElement('a');
-                    readMoreLink.href = 'article.html';
+                    readMoreLink.href = '/article.html';
                     readMoreLink.classList.add('read-more');
                     readMoreLink.textContent = 'Read More >>';
                     articleContent.appendChild(readMoreLink);
@@ -113,12 +117,12 @@
 
                     // Добавляем статью в контейнер
                     articlesContainer.appendChild(articleElement);
-                    
+
                     // Добавляем разделитель
                     articlesContainer.appendChild(document.createElement('hr'));
                 });
             })
             .catch(error => console.error('Error loading articles:', error));
-    </script>
+</script>
 </body>
 </html>

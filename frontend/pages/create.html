@@ -5,107 +5,108 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Article</title>
     <link rel="stylesheet" href="/static/css/styles.css">
-    <link href='https://fonts.googleapis.com/css?family=IBM Plex Mono' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=IBM+Plex+Mono' rel='stylesheet'>
 </head>
 <body>
-    <header>
-        <div class="hor-container">
-            <!-- Логотип слева -->
-            <div class="logo">
-                <h1><span>&lt;/C&gt;</span> SinanTokmak</h1>
-            </div>
-            
-            <!-- Навигация, поиск и социальные иконки справа -->
-            <div class="nav-and-search">
-                <nav>
-                    <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="blog.html">Blogs</a></li>
-                    </ul>
-                </nav>
-                <div class="search-box">
-                    <input type="text" placeholder="Search...">
-                    <button>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                    </button>
-                </div>
-                <ul class="social-icons">
-                    <li><a href="#"><img src="/static/images/instagram.png" alt="Instagram">Instagram</a></li>
-                    <li><a href="#"><img src="/static/images/discord.png" alt="Discord">Discord</a></li>
-                    <li><a href="#"><img src="/static/images/github.png" alt="Github">Github</a></li>
+<header>
+    <div class="hor-container">
+        <!-- Логотип слева -->
+        <div class="logo">
+            <h1><span>&lt;/C&gt;</span> SinanTokmak</h1>
+        </div>
+
+        <!-- Навигация, поиск и социальные иконки справа -->
+        <div class="nav-and-search">
+            <nav>
+                <ul>
+                    <li><a href="/index.html">Home</a></li>
+                    <li><a href="/blog.html">Blogs</a></li>
+                    <li><a href="/create.html">Create new article</a></li>
                 </ul>
+            </nav>
+            <div class="search-box">
+                <input type="text" placeholder="Search...">
+                <button>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
             </div>
+            <ul class="social-icons">
+                <li><a href="#"><img src="/static/images/instagram.png" alt="Instagram">Instagram</a></li>
+                <li><a href="#"><img src="/static/images/discord.png" alt="Discord">Discord</a></li>
+                <li><a href="#"><img src="/static/images/github.png" alt="Github">Github</a></li>
+            </ul>
         </div>
-    </header>
-    
-
-
-    <div class="container">
-        <h1>Create a New Article</h1>
-       
-        <form id="create-article-form" class="contact-form" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="title">Title</label>
-                <input type="text" id="title" name="title" placeholder="Enter article title" required>
-            </div>
-            <div class="form-group">
-                <label for="content">Content</label>
-                <textarea id="content" name="content" placeholder="Write your article here..." required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="author">Author</label>
-                <input type="text" id="author" name="author" placeholder="Enter your name" required>
-            </div>
-            <div class="form-group">
-                <label for="date">Date</label>
-                <input type="date" id="date" name="date" required>
-            </div>
-            <div class="form-group">
-                <label for="image">Upload Image</label>
-                <input type="file" id="image" name="image" accept="image/*" required>
-            </div>
-            <button type="submit" class="send-message-btn">Create</button>
-        </form>
-        
-        <a href="/frontend/pages/static" class="read-more">Back to Home</a>
     </div>
-    <footer>
-        <div class="container">
-            <p>© 2023 SinanTokmak. All rights reserved.</p>
-            <a href="#">Privacy Policy</a> | <a href="#">Terms & Conditions</a>
+</header>
+
+<div class="container">
+    <h1>Create a New Article</h1>
+
+    <form id="create-article-form" class="contact-form" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" placeholder="Enter article title" required>
         </div>
-    </footer>
+        <div class="form-group">
+            <label for="content">Content</label>
+            <textarea id="content" name="content" placeholder="Write your article here..." required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="author">Author</label>
+            <input type="text" id="author" name="author" placeholder="Enter your name" required>
+        </div>
+        <div class="form-group">
+            <label for="date">Date</label>
+            <input type="date" id="date" name="date" required>
+        </div>
+        <div class="form-group">
+            <label for="image">Upload Image</label>
+            <input type="file" id="image" name="image" accept="image/*" required>
+        </div>
+        <button type="submit" class="send-message-btn">Create</button>
+    </form>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const form = document.querySelector('#create-article-form');
-        
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault(); 
-        
-                const formData = new FormData(form);
-        
-                try {
-                    const response = await fetch('/api/articles', {
-                        method: 'POST',
-                        body: formData
-                    });
-        
-                    if (response.ok) {
-                        alert('Article created successfully!');
-                        window.location.href = '/blog'; // Перенаправление на страницу блога
-                    } else {
-                        const error = await response.json();
-                        alert(`Error: ${error.error || 'Failed to create article'}`);
-                    }
-                } catch (err) {
-                    console.error('Error submitting form:', err);
-                    alert('Something went wrong. Please try again.');
+    <a href="/index.html" class="read-more">Back to Home</a>
+</div>
+<footer>
+    <div class="container">
+        <p>© 2023 SinanTokmak. All rights reserved.</p>
+        <a href="#">Privacy Policy</a> | <a href="#">Terms & Conditions</a>
+    </div>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.querySelector('#create-article-form');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch('/api/articles', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    alert('Article created successfully!');
+                    window.location.href = '/blog.html'; // Перенаправление на страницу блога
+                } else {
+                    const error = await response.json();
+                    alert(`Error: ${error.error || 'Failed to create article'}`);
                 }
-            });
+            } catch (err) {
+                console.error('Error submitting form:', err);
+                alert('Something went wrong. Please try again.');
+            }
         });
-        </script>
-        
-
+    });
+</script>
 </body>
 </html>
